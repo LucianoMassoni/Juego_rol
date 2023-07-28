@@ -2,6 +2,7 @@ package com.mycompany.app;
 
 import java.time.LocalDate;
 
+
 public abstract class Personaje {
     //Atributos
     private String nombre;
@@ -107,7 +108,28 @@ public abstract class Personaje {
     }
 
     //funciones
-    public void atacar(){}
+    //Estos metodos del calculo de ataque me parece que deberian ser privados
+    public double poderDeDisparo(){
+        return this.destreza * this.fuerza * nivel;
+    }
+
+    public double efectividadDeDisparo(){
+        int random = (int)(Math.random()*100+1);
+        return (double) random/100;
+    }
+
+    public double valorDeAtaque(){
+        return poderDeDisparo() * efectividadDeDisparo();
+    }
+
+    public double defensa(){
+        return this.armadura * this.velocidad;
+    }
+
+
+    public double atacar(){
+        return 0;
+    }
     public void actualizarEstadoPersonaje(int salud){
         this.salud = salud;
         if (this.salud < 0) {
