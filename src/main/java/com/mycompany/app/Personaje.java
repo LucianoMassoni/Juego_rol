@@ -127,9 +127,8 @@ public abstract class Personaje {
     }
 
 
-    public double atacar(){
-        return 0;
-    }
+    public abstract double atacar();
+
     public void actualizarEstadoPersonaje(int salud){
         this.salud = salud;
         if (this.salud < 0) {
@@ -137,4 +136,21 @@ public abstract class Personaje {
         }
     }
 
+    @Override
+    public String toString(){
+        String raza;
+        if (this.getClass().equals(com.mycompany.app.Humano.class)){
+            raza = "Humano";
+        } else if (this.getClass().equals(com.mycompany.app.Elfo.class)) {
+            raza = "Elfo";
+        } else{
+            raza = "Ogro";
+        }
+        return "-------------------------------------"+"\n            Personaje         Lvl:"+this.nivel +"\n-------------------------------------"+"\n    Raza: "+
+              raza + "\n    Nombre: " + this.nombre + "\n    Apodo: " + this.apodo + "\n    Fecha de nacimiento: " +
+                this.fechaDeNacimiento.toString() + "\n    Edad: " + this.edad + " años" +  "\n    Salud: " + this.salud +
+                "\n  ---------------------------------" + "\n          Caracteristicas " +"\n  ---------------------------------" +
+                "\n    Velocidad: " + this.velocidad + "\n    Destreza: " + this.destreza + "\n    Fuerza: " + this.fuerza +
+                "\n    Nivel: " + this.nivel + "\n    Armadura: " + this.armadura + "\n=====================================";
+    }
 }

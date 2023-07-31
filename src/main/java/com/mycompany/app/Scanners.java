@@ -16,7 +16,7 @@ public class Scanners {
         do {
             try {
                 if (volverIngresarDato && contadorIntentos < 4){
-                    System.out.println("Ingrese un numero valido: ");
+                    System.out.print("Ingrese un numero valido: ");
                     numero = in.next();
                 }
                 numeroInt = Integer.parseInt(numero);
