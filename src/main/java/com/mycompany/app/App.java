@@ -3,8 +3,12 @@ package com.mycompany.app;
 import com.mycompany.app.exceptions.CantidadMaximaDeIntentosException;
 
 
+import javax.swing.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import org.apache.commons.io.output.TeeOutputStream;
 
 /**
  * Hello world!
@@ -15,11 +19,35 @@ import java.util.List;
 public class App{
 
     //Todo hacer el printLog() y el borrarLog()
-    public static void printLog(){
+    public static void printLog() {
+        File log = new File("log.txt");
 
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+
+        if (log.exists()) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(log), "UTF-8"))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            System.out.println("No existe el archivo del log");
+        }
+        // Restauramos la salida estándar original para que las siguientes impresiones se guarden en el archivo
+        System.setOut(originalOut);
     }
     public static void borrarLog(){
-
+        File log = new File("log.txt");
+        if (log.exists()){
+            log.delete();
+        } else {
+            System.out.println("No existe el archivo");
+        }
     }
     public static void crearPersonaje(List<Personaje> listaDePersonajes) throws CantidadMaximaDeIntentosException {
         Personaje personaje;
@@ -85,11 +113,7 @@ public class App{
                 contador++;
             }
         }
-        if (contador == 3) {
-            return false;
-        } else {
-            return true;
-        }
+        return contador != 3;
     }
 
     public static void rondaDeCombate(Jugador jugador1, Jugador jugador2) {
@@ -200,7 +224,7 @@ public class App{
             }
         }
     }
-    public static void main(String[] args) throws CantidadMaximaDeIntentosException {
+    public static void main(String[] args) throws CantidadMaximaDeIntentosException, FileNotFoundException {
         Scanners sc = new Scanners();
         int op;
         int contador = 0;
@@ -208,33 +232,60 @@ public class App{
 
         System.out.println("Increible juegaso de rol");
         System.out.println("------------------------");
-        do {
-            System.out.println("          Menu");
-            System.out.println("1. Jugar");
-            System.out.println("2. Ver el log de partidas ya jugadas");
-            System.out.println("3. Borrar el log");
-            System.out.println("0. SALIR");
-            op = sc.scannerInt(sc.scannerString());
-            contador++;
-            if (contador > 3){
-                throw new CantidadMaximaDeIntentosException("Superó la cantidad maxima de intentos");
-            }
-        } while(op < 0 || op > 3);
 
-        switch (op){
-            case 1:{
-                combate();
-                break;
-            }
-            case 2:{
-                printLog();
-                break;
-            }
-            case 3:{
-                borrarLog();
-                break;
-            }
+        try {
+            //Abre un archivo log.txt para escribir, para eso es el FileOutputStream
+            FileOutputStream fileOutputStream = new FileOutputStream("log.txt");
+
+            //El TeeOutputStream te deja splettear la salida del System.out en el fileOutoutStream
+            //Es decir se va a escribir la salida de la terminal.
+            TeeOutputStream teeOutputStream = new TeeOutputStream(System.out, fileOutputStream);
+
+            //PrintStream es una clase que te permite imprimir datos en la consola o en otros flujos de salida.
+            PrintStream log = new PrintStream(teeOutputStream);
+
+            do {
+                //Todo
+                // aca prodria hacer un op = menu() y en el menu tambien cambierle el flujo para que no se guarde en el log
+                // al igual que en la creacion de personajes.
+                // o solo guardar cuando esta en combate. :p
+
+                System.out.println("          Menu");
+                System.out.println("1. Jugar");
+                System.out.println("2. Ver el log de partidas ya jugadas");
+                System.out.println("3. Borrar el log");
+                System.out.println("0. SALIR");
+                System.out.print("Ingrese su opcion: ");
+                op = sc.scannerInt(sc.scannerString());
+                if (op < 0 || op > 3){
+                    contador++;
+                }
+                if (contador > 3){
+                    throw new CantidadMaximaDeIntentosException("Superó la cantidad maxima de intentos");
+                }
+
+                if (op == 1){
+                    System.setOut(log);
+                    combate();
+
+                } else if (op == 2) {
+                    // Si imprime el log, se imprime por terminal; lo que hace que se imprima el log por terminal;
+                    printLog();
+
+                } else if (op == 3) {
+                    borrarLog();
+                }
+
+            } while(op != 0);
+
+            //Cierro los flujos.
+            log.close();
+            fileOutputStream.close();
+        } catch (IOException e){
+            e.printStackTrace();
         }
+
+
         System.out.println("Gracias vuelva prontos");
 
     }
