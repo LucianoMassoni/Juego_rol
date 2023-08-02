@@ -9,7 +9,7 @@ public abstract class Personaje {
     private String apodo;
     private LocalDate fechaDeNacimiento;
     private int edad;
-    private int salud;
+    private double salud;
     private boolean seleccionable = true;
 
     //Caracteristicas
@@ -51,11 +51,11 @@ public abstract class Personaje {
         this.edad = edad;
     }
 
-    public int getSalud() {
+    public double getSalud() {
         return salud;
     }
 
-    public void setSalud(int salud) {
+    public void setSalud(double salud) {
         this.salud = salud;
     }
 
@@ -114,8 +114,8 @@ public abstract class Personaje {
     }
 
     public double efectividadDeDisparo(){
-        int random = (int)(Math.random()*100+1);
-        return (double) random/100;
+        double random = (Math.random()*100+1);
+        return random/10;
     }
 
     public double valorDeAtaque(){
@@ -129,9 +129,11 @@ public abstract class Personaje {
 
     public abstract double atacar();
 
-    public void actualizarEstadoPersonaje(int salud){
+    public void actualizarEstadoPersonaje(double ataque){
+        double salud = this.salud;
+        salud -= (double) (Math.round(ataque*100))/100;
         this.salud = salud;
-        if (this.salud < 0) {
+        if (this.salud <= 0) {
             seleccionable = false;
         }
     }
@@ -146,11 +148,11 @@ public abstract class Personaje {
         } else{
             raza = "Ogro";
         }
-        return "-------------------------------------"+"\n            Personaje         Lvl:"+this.nivel +"\n-------------------------------------"+"\n    Raza: "+
+        return "\n-------------------------------------"+"\n            Personaje         Lvl:"+this.nivel +"\n-------------------------------------"+"\n    Raza: "+
               raza + "\n    Nombre: " + this.nombre + "\n    Apodo: " + this.apodo + "\n    Fecha de nacimiento: " +
-                this.fechaDeNacimiento.toString() + "\n    Edad: " + this.edad + " años" +  "\n    Salud: " + this.salud +
+                this.fechaDeNacimiento.toString() + "\n    Edad: " + this.edad + " años" +
                 "\n  ---------------------------------" + "\n          Caracteristicas " +"\n  ---------------------------------" +
-                "\n    Velocidad: " + this.velocidad + "\n    Destreza: " + this.destreza + "\n    Fuerza: " + this.fuerza +
-                "\n    Nivel: " + this.nivel + "\n    Armadura: " + this.armadura + "\n=====================================";
+                "\n    Salud: " + this.salud + "\n    Velocidad: " + this.velocidad + "\n    Destreza: " + this.destreza +
+                "\n    Fuerza: " + this.fuerza + "\n    Nivel: " + this.nivel + "\n    Armadura: " + this.armadura + "\n=====================================";
     }
 }

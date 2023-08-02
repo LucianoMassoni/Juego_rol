@@ -5,6 +5,8 @@ import com.mycompany.app.exceptions.CantidadMaximaDeIntentosException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PersonajeBuilder {
 
@@ -306,7 +308,7 @@ public class PersonajeBuilder {
         return this;
     }
 
-    public Personaje build() throws CantidadMaximaDeIntentosException {
+    public Personaje build() {
         Personaje personaje;
 
         personaje = this.raza;
@@ -323,12 +325,29 @@ public class PersonajeBuilder {
 
         return personaje;
     }
+    private String nombreRandom(){
+        List<String> lista = new ArrayList<>();
+        lista.add("Marli");
+        lista.add("Leia");
+        lista.add("Braven");
+        lista.add("Iyanna");
+        lista.add("Perseus");
+        lista.add("Mehmet");
+        lista.add("Arlo");
+        lista.add("Evianna");
+        lista.add("Alyanna");
+        lista.add("Antwone");
+        lista.add("Kezia");
+        lista.add("Karsyn");
+        lista.add("Cylis");
 
-    public Personaje randomBuild(){
-        int clasePersonaje = (int) (Math.random()*3);
+        return lista.get((int)(Math.random()* lista.size()));
+    }
+    public Personaje randomBuild() {
+        int clasePersonaje = (int) (Math.random() * 3);
         Personaje personaje;
 
-        if (clasePersonaje == 0){
+        if (clasePersonaje == 0) {
             personaje = new Humano();
         } else if (clasePersonaje == 1) {
             personaje = new Elfo();
@@ -336,12 +355,36 @@ public class PersonajeBuilder {
             personaje = new Ogro();
         }
 
-        personaje.setSalud((int) (Math.random() * 100) +1);
-        personaje.setVelocidad((int) (Math.random() * 10) +1);
-        personaje.setDestreza((int) (Math.random() * 5) +1);
-        personaje.setFuerza((int) (Math.random()*10+1));
-        personaje.setNivel((int) (Math.random()*10+1));
-        personaje.setArmadura((int) (Math.random()*10+1));
+        int anno, mes, dia, edad;
+        LocalDate fecha = LocalDate.now();
+        LocalDate hoy = LocalDate.now();
+        boolean fechaCorrecta;
+
+        do {
+            fechaCorrecta = true;
+            anno = LocalDate.now().getYear() - (int) (Math.random() * 300);
+            mes = (int) (Math.random() * 12 + 1);
+            dia = (int) (Math.random() * 31 + 1);
+            try {
+                fecha = LocalDate.of(anno, mes, dia);
+            } catch (Exception exception) {
+                fechaCorrecta = false;
+            }
+        } while (!fechaCorrecta);
+
+        Period periodo = Period.between(fecha, hoy);
+        edad = periodo.getYears();
+
+        personaje.setNombre("nombre");
+        personaje.setApodo(nombreRandom());
+        personaje.setFechaDeNacimiento(fecha);
+        personaje.setEdad(edad);
+        personaje.setSalud((int) (Math.random() * 100) + 1);
+        personaje.setVelocidad((int) (Math.random() * 10) + 1);
+        personaje.setDestreza((int) (Math.random() * 5) + 1);
+        personaje.setFuerza((int) (Math.random() * 10 + 1));
+        personaje.setNivel((int) (Math.random() * 10 + 1));
+        personaje.setArmadura((int) (Math.random() * 10 + 1));
 
         return personaje;
     }
