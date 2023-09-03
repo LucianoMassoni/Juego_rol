@@ -2,7 +2,7 @@ package com.mycompany.app;
 
 import java.time.LocalDate;
 
-
+//todo investigar libreria de nombres raros, creo que son del señor del anillo.
 public abstract class Personaje {
     //Atributos
     private String nombre;
