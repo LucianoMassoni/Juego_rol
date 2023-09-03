@@ -17,11 +17,35 @@ import org.apache.commons.io.output.TeeOutputStream;
 
 
 public class App{
+    //todo Dividir en distintas clases las funciones; dividirlo en MenuManager, PersonajeManager y CombateManager
+    private static int menu(int contador) throws CantidadMaximaDeIntentosException {
+        int op;
+        Scanners sc = new Scanners();
 
-    //Todo hacer el printLog() y el borrarLog()
+        //Cambio el System.setOut para que no se guarde en el log
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+
+        System.out.println("          Menu");
+        System.out.println("1. Jugar");
+        System.out.println("2. Ver el log de partidas ya jugadas");
+        System.out.println("3. Borrar el log");
+        System.out.println("0. SALIR");
+        System.out.print("Ingrese su opcion: ");
+        op = sc.scannerInt(sc.scannerString());
+        //Si contador > 1 son 3 intentos, porque primero arranca el menu para sacar la opcion.
+        if (contador > 1){
+            throw new CantidadMaximaDeIntentosException("Superó la cantidad maxima de intentos");
+            }
+
+        //Vuelvo a cambiar el System.setOut para que ahora si se guarde en el log
+        System.setOut(originalOut);
+        return op;
+    }
     public static void printLog() {
         File log = new File("log.txt");
 
+        //Cambio el System.setOut para que no se guarde en el log
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
 
@@ -82,6 +106,10 @@ public class App{
         int contador = 0;
         Scanners sc = new Scanners();
 
+        //Cambio el System.setOut para que no se guarde en el log
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+
         do {
             System.out.println("Menu de creacion de personaje");
             System.out.println("1. Crear tus personajes");
@@ -104,6 +132,9 @@ public class App{
         } else {
             crearPersonajeAleatorio(jugador.getPersonajes());
         }
+
+        //Vuelvo a cambiar el System.setOut para que ahora si se guarde en el log
+        System.setOut(originalOut);
     }
 
     public static boolean cartasDisponibles(Jugador jugador) {
@@ -116,6 +147,25 @@ public class App{
         return contador != 3;
     }
 
+    //Pase la creacion de las cartas a esta funcion para que no salga por pantalla.
+    public static void crearCartas(Jugador jugador) throws CantidadMaximaDeIntentosException {
+        Scanners sc = new Scanners();
+
+        //Cambio el System.setOut para que no se guarde en el log
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+
+        System.out.print("Bienvenido jugador\nIngrese su nombre: ");
+        jugador.setNombre(sc.scannerString());
+
+        System.out.println(jugador.getNombre() + " vamos a crear tus 3 personajes");
+        for (int i = 0; i < 3; i++) {
+            menuCreacionPersonaje(jugador);
+        }
+
+        //Vuelvo a cambiar el System.setOut para que ahora si se guarde en el log
+        System.setOut(originalOut);
+    }
     public static void rondaDeCombate(Jugador jugador1, Jugador jugador2) {
         Personaje cartaJugador1;
         Personaje cartaJugador2;
@@ -132,8 +182,6 @@ public class App{
         System.out.println("La carta del jugador " + jugador1.getNombre() + " es " + cartaJugador1.toString());
         System.out.println("La carta del jugador " + jugador2.getNombre() + " es " + cartaJugador2.toString());
 
-        //todo
-        // En el do-while deberia hacer algo de turnos para que se alterne.
 
         do {
             if (turno % 2 != 0) { //Enpieza atacando el jugador 1
@@ -172,25 +220,11 @@ public class App{
     }
 
     public static void combate() throws CantidadMaximaDeIntentosException {
-        Scanners sc = new Scanners();
         Jugador jugador1 = new Jugador();
         Jugador jugador2 = new Jugador();
 
-
-        System.out.print("Bienvenido jugador 1\nIngrese su nombre: ");
-        jugador1.setNombre(sc.scannerString());
-        System.out.print("Bienvenido jugador 2\nIngrese su nombre: ");
-        jugador2.setNombre(sc.scannerString());
-
-        System.out.println(jugador1.getNombre() + " vamos a crear tus 3 personajes");
-        for (int i = 0; i < 3; i++) {
-            menuCreacionPersonaje(jugador1);
-
-        }
-        System.out.println(jugador2.getNombre() + " vamos a crear tus 3 personajes");
-        for (int i = 0; i < 3; i++) {
-            menuCreacionPersonaje(jugador2);
-        }
+        crearCartas(jugador1);
+        crearCartas(jugador2);
 
         //Todo buscar la forma de clarear la pantalla
         int turno = (int) (Math.random() * 100 + 1);
@@ -225,7 +259,6 @@ public class App{
         }
     }
     public static void main(String[] args) throws CantidadMaximaDeIntentosException, FileNotFoundException {
-        Scanners sc = new Scanners();
         int op;
         int contador = 0;
 
@@ -245,38 +278,25 @@ public class App{
             PrintStream log = new PrintStream(teeOutputStream);
 
             do {
-                //Todo
-                // aca prodria hacer un op = menu() y en el menu tambien cambierle el flujo para que no se guarde en el log
-                // al igual que en la creacion de personajes.
-                // o solo guardar cuando esta en combate. :p
 
-                System.out.println("          Menu");
-                System.out.println("1. Jugar");
-                System.out.println("2. Ver el log de partidas ya jugadas");
-                System.out.println("3. Borrar el log");
-                System.out.println("0. SALIR");
-                System.out.print("Ingrese su opcion: ");
-                op = sc.scannerInt(sc.scannerString());
-                if (op < 0 || op > 3){
-                    contador++;
-                }
-                if (contador > 3){
-                    throw new CantidadMaximaDeIntentosException("Superó la cantidad maxima de intentos");
-                }
+                op = menu(contador);
 
                 if (op == 1){
                     System.setOut(log);
                     combate();
 
                 } else if (op == 2) {
-                    // Si imprime el log, se imprime por terminal; lo que hace que se imprima el log por terminal;
                     printLog();
 
                 } else if (op == 3) {
                     borrarLog();
                 }
-
+                if (op < 0 || op > 3){
+                    contador++;
+                }
             } while(op != 0);
+
+            System.out.println("Gracias vuelva prontos");
 
             //Cierro los flujos.
             log.close();
@@ -284,9 +304,5 @@ public class App{
         } catch (IOException e){
             e.printStackTrace();
         }
-
-
-        System.out.println("Gracias vuelva prontos");
-
     }
 }
