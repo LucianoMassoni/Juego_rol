@@ -131,11 +131,12 @@ public class PersonajeBuilder {
         } while (!fechaCorrecta);
 
         this.fechaDeNacimiento = fechaDeNacimiento;
-        //No creo que invocar la funcion withEdad aca este bien. Pero pasandole le fecha se calcula solo.
+        //No creo que invocar la funcion withEdad aca esté bien. Pero pasandole le fecha se calcula solo.
         withEdad(fechaDeNacimiento);
         return this;
     }
 
+    //withEdad no devuelve nada y es privada para que no se pueda settear la edad y se calcule sola.
     private void withEdad(LocalDate fechaDeNacimiento)  {
         int edad;
         LocalDate hoy = LocalDate.now();
@@ -143,7 +144,6 @@ public class PersonajeBuilder {
         Period periodo = Period.between(fechaDeNacimiento, hoy);
         edad = periodo.getYears();
         this.edad = edad;
-        //Esta no devuelve nada y es privada para que no se pueda settear la edad y se calcule sola.
     }
 
     public PersonajeBuilder withSalud() throws CantidadMaximaDeIntentosException {

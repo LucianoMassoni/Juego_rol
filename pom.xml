@@ -19,7 +19,7 @@
   </properties>
 
   <dependencies>
-    <!-- Agrego El Commons IO para usar el mismo uotput para el log.txt y la terminal -->
+    <!-- Agrego El Commons IO para usar el mismo output para el log.txt y la terminal -->
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>

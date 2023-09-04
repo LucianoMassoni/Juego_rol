@@ -19,6 +19,7 @@ public abstract class Personaje {
     private int nivel;
     private int armadura;
 
+    //getters y setters
     public String getNombre() {
         return nombre;
     }

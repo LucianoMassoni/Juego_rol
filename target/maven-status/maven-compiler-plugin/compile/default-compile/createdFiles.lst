@@ -1,1 +1,6 @@
+com\mycompany\app\managers\MenuManager.class
 com\mycompany\app\App.class
+com\mycompany\app\managers\PersonajeManager.class
+com\mycompany\app\managers\FlujoOutputManager.class
+com\mycompany\app\managers\CombateManager.class
+com\mycompany\app\managers\LogManager.class
