@@ -3,3 +3,5 @@
 /workspace.xml
 *.idea/
 target/
+/target/
+/target/classes/com/mycompany/app/managers/
