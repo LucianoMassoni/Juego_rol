@@ -29,6 +29,7 @@ public class PersonajeManager {
                 .build();
 
         listaDePersonajes.add(personaje);
+        System.out.println(personaje.toString());
     }
 
     public static void crearPersonajeAleatorio(List<Personaje> listaDePersonajes) {
@@ -38,6 +39,7 @@ public class PersonajeManager {
         personaje = personajeBuilder.randomBuild();
 
         listaDePersonajes.add(personaje);
+        System.out.println(personaje.toString());
     }
 
     public static boolean cartasDisponibles(Jugador jugador) {

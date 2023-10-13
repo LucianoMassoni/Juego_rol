@@ -325,6 +325,32 @@ public class PersonajeBuilder {
 
         return personaje;
     }
+    private static LocalDate fechaDeNacimientoRandom(){
+        int anno, mes, dia;
+        LocalDate fecha = LocalDate.now();
+        boolean fechaCorrecta;
+
+        do {
+            fechaCorrecta = true;
+            anno = (LocalDate.now().getYear()-1) - (int) (Math.random() * 300);
+            mes = (int) (Math.random() * 12 + 1);
+            dia = (int) (Math.random() * 31 + 1);
+            try {
+                fecha = LocalDate.of(anno, mes, dia);
+            } catch (Exception exception) {
+                fechaCorrecta = false;
+            }
+        } while (!fechaCorrecta);
+        return fecha;
+    }
+    private static int edadConFechaDeNacimiento(LocalDate fecha){
+        int edad;
+        LocalDate hoy = LocalDate.now();
+        Period periodo = Period.between(fecha, hoy);
+        edad = periodo.getYears();
+
+        return edad;
+    }
     public Personaje randomBuild() {
         Faker faker = new Faker();
 
@@ -339,31 +365,13 @@ public class PersonajeBuilder {
             personaje = new Ogro();
         }
 
-        int anno, mes, dia, edad;
-        LocalDate fecha = LocalDate.now();
-        LocalDate hoy = LocalDate.now();
-        boolean fechaCorrecta;
 
-        do {
-            fechaCorrecta = true;
-            anno = LocalDate.now().getYear() - (int) (Math.random() * 300);
-            mes = (int) (Math.random() * 12 + 1);
-            dia = (int) (Math.random() * 31 + 1);
-            try {
-                fecha = LocalDate.of(anno, mes, dia);
-            } catch (Exception exception) {
-                fechaCorrecta = false;
-            }
-        } while (!fechaCorrecta);
-
-        Period periodo = Period.between(fecha, hoy);
-        edad = periodo.getYears();
 
         personaje.setNombre(faker.name().firstName());
         personaje.setApodo(faker.aquaTeenHungerForce().character());
         //todo ver la fecha de faker
-        personaje.setFechaDeNacimiento(fecha);
-        personaje.setEdad(edad);
+        personaje.setFechaDeNacimiento(fechaDeNacimientoRandom());
+        personaje.setEdad(edadConFechaDeNacimiento(personaje.getFechaDeNacimiento()));
         personaje.setSalud((int) (Math.random() * 100) + 1);
         personaje.setVelocidad((int) (Math.random() * 10) + 1);
         personaje.setDestreza((int) (Math.random() * 5) + 1);
