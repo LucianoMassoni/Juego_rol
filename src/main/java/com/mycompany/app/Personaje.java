@@ -133,6 +133,7 @@ public abstract class Personaje {
     public void actualizarEstadoPersonaje(double ataque){
         double salud = this.salud;
         salud -= (double) (Math.round(ataque*100))/100;
+        if (salud < 0) salud = 0;
         this.salud = salud;
         if (this.salud <= 0) {
             seleccionable = false;

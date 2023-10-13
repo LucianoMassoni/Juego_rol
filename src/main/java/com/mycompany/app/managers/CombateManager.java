@@ -81,13 +81,12 @@ public class CombateManager {
                 rondaDeCombate(jugador2, jugador1);
             }
             turno++;
-
         }
-        if (PersonajeManager.cartasDisponibles(jugador1)) {
-            if (!PersonajeManager.cartasDisponibles(jugador2)){
+
+        if (PersonajeManager.cartasDisponibles(jugador1) && !PersonajeManager.cartasDisponibles(jugador2)) {
                 System.out.println("El jugador " + jugador1.getNombre() + " es el ganador!!!");
                 System.out.println("estas son las cartas que le quedaron Y SUBEN DE NIVEL");
-            }
+
             for (Personaje pj : jugador1.getPersonajes()) {
                 if (pj.isSeleccionable()) {
                     pj.setNivel(pj.getNivel() + 1);
@@ -95,10 +94,9 @@ public class CombateManager {
                 }
             }
         } else {
-            if (!PersonajeManager.cartasDisponibles(jugador1)){
-                System.out.println("El jugador " + jugador2.getNombre() + " es el ganador!!!");
-                System.out.println("estas son las cartas que le quedaron Y SUBEN DE NIVEL!!!");
-            }
+            System.out.println("El jugador " + jugador2.getNombre() + " es el ganador!!!");
+            System.out.println("estas son las cartas que le quedaron Y SUBEN DE NIVEL!!!");
+
             for (Personaje pj : jugador2.getPersonajes()) {
                 if (pj.isSeleccionable()) {
                     pj.setNivel(pj.getNivel() + 1);

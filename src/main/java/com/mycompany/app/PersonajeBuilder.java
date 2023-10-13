@@ -365,11 +365,8 @@ public class PersonajeBuilder {
             personaje = new Ogro();
         }
 
-
-
         personaje.setNombre(faker.name().firstName());
         personaje.setApodo(faker.aquaTeenHungerForce().character());
-        //todo ver la fecha de faker
         personaje.setFechaDeNacimiento(fechaDeNacimientoRandom());
         personaje.setEdad(edadConFechaDeNacimiento(personaje.getFechaDeNacimiento()));
         personaje.setSalud((int) (Math.random() * 100) + 1);
