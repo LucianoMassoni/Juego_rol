@@ -8,6 +8,7 @@ public class MenuManager {
         int op;
         Scanners sc = new Scanners();
 
+
         //Cambio el flujo para que no se guarde en el log
         FlujoOutputManager.setOutputSoloConsola();
 

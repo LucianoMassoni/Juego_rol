@@ -6,8 +6,10 @@ import com.mycompany.app.managers.*;
 
 
 public class App{
-    private static final String NOMBRE_LOG = "log.txt";
+    private static final String NOMBRE_LOG = "D:/UTN-TUP/4-tercer_cuatrimestre/programacion_III/0-final/juego-rol/log.txt";
     public static void main(String[] args) throws CantidadMaximaDeIntentosException {
+        //TODO NO ME ESTA MOSTRANDO POR CONSOLA TODA LA INFO
+
         int op;
         int contador = 0;
 
@@ -28,7 +30,11 @@ public class App{
                     LogManager.printLog(NOMBRE_LOG);
 
                 } else if (op == 3) {
+                    //Cierro la redireccion para que el archivo se cierre y me deje borrarlo
+                    FlujoOutputManager.cerrarRedireccion();
                     LogManager.borrarLog(NOMBRE_LOG);
+                    //Vuelvo a abrir el flujo por si juego de borrar el archivo se quiere seguir jugando, y se guarde.
+                    FlujoOutputManager.iniciarRedireccion(NOMBRE_LOG);
                 }
                 if (op < 0 || op > 3){
                     contador++;

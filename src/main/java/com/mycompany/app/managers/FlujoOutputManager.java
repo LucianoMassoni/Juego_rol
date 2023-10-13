@@ -23,6 +23,10 @@ public class FlujoOutputManager {
             e.printStackTrace();
         }
     }
+    public static void cerrarRedireccion() throws IOException {
+        // Cierra el flujo y el archivo
+        fileOutputStream.close();
+    }
     public static void setOutputGuardaEnLog(){
         System.setOut(logPrintStream);
     }

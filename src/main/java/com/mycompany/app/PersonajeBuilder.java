@@ -2,11 +2,11 @@ package com.mycompany.app;
 
 import com.mycompany.app.exceptions.CantidadMaximaDeIntentosException;
 
+import com.github.javafaker.Faker;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PersonajeBuilder {
 
@@ -325,25 +325,9 @@ public class PersonajeBuilder {
 
         return personaje;
     }
-    private String nombreRandom(){
-        List<String> lista = new ArrayList<>();
-        lista.add("Marli");
-        lista.add("Leia");
-        lista.add("Braven");
-        lista.add("Iyanna");
-        lista.add("Perseus");
-        lista.add("Mehmet");
-        lista.add("Arlo");
-        lista.add("Evianna");
-        lista.add("Alyanna");
-        lista.add("Antwone");
-        lista.add("Kezia");
-        lista.add("Karsyn");
-        lista.add("Cylis");
-
-        return lista.get((int)(Math.random()* lista.size()));
-    }
     public Personaje randomBuild() {
+        Faker faker = new Faker();
+
         int clasePersonaje = (int) (Math.random() * 3);
         Personaje personaje;
 
@@ -375,8 +359,9 @@ public class PersonajeBuilder {
         Period periodo = Period.between(fecha, hoy);
         edad = periodo.getYears();
 
-        personaje.setNombre("nombre");
-        personaje.setApodo(nombreRandom());
+        personaje.setNombre(faker.name().firstName());
+        personaje.setApodo(faker.aquaTeenHungerForce().character());
+        //todo ver la fecha de faker
         personaje.setFechaDeNacimiento(fecha);
         personaje.setEdad(edad);
         personaje.setSalud((int) (Math.random() * 100) + 1);

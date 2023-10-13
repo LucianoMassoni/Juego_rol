@@ -23,6 +23,7 @@ public class CombateManager {
 
 
         do {
+            //ToDo aca agregar contador de turno en 7
             if (turno % 2 != 0) { //Enpieza atacando el jugador 1
                 ataque = (double) (Math.round(cartaJugador1.atacar() * 100)) / 100;
                 if (ataque <= 0) {
@@ -59,15 +60,16 @@ public class CombateManager {
     }
 
     public static void combate() throws CantidadMaximaDeIntentosException {
+        int ronda = 0;
         Jugador jugador1 = new Jugador();
         Jugador jugador2 = new Jugador();
 
         PersonajeManager.crearCartas(jugador1);
         PersonajeManager.crearCartas(jugador2);
 
-        //todo buscar la forma de clarear la pantalla
+        //todo Si esto es el combate general deberia sacar la variable ronda de aca
         int turno = (int) (Math.random() * 100 + 1);
-        while (PersonajeManager.cartasDisponibles(jugador1) && PersonajeManager.cartasDisponibles(jugador2)) {
+        while (PersonajeManager.cartasDisponibles(jugador1) && PersonajeManager.cartasDisponibles(jugador2) && ronda < 7) {
             if (turno % 2 == 0) {
                 System.out.println("el Jugador " + jugador1.getNombre() + " ataca");
                 //En la funcion combate ataca primero el que se ingresa en la primer posicion.
@@ -77,18 +79,27 @@ public class CombateManager {
                 rondaDeCombate(jugador2, jugador1);
             }
             turno++;
+            ronda++;
         }
         if (PersonajeManager.cartasDisponibles(jugador1)) {
-            System.out.println("El jugador " + jugador1.getNombre() + " es el ganador!!!");
-            System.out.println("estas son las cartas que le quedaron");
+            if (!PersonajeManager.cartasDisponibles(jugador2)){
+                System.out.println("El jugador " + jugador1.getNombre() + " es el ganador!!!");
+                System.out.println("estas son las cartas que le quedaron Y SUBE DE NIVEL");
+            } else {
+                System.out.println("Estas son las cartas que le quedaron a " + jugador1.getNombre());
+            }
             for (Personaje pj : jugador1.getPersonajes()) {
                 if (pj.isSeleccionable()) {
                     System.out.println(pj.toString());
                 }
             }
         } else {
-            System.out.println("El jugador " + jugador2.getNombre() + " es el ganador!!!");
-            System.out.println("estas son las cartas que le quedaron Y SUBEN DE NIVEL!!!");
+            if (!PersonajeManager.cartasDisponibles(jugador1)){
+                System.out.println("El jugador " + jugador2.getNombre() + " es el ganador!!!");
+                System.out.println("estas son las cartas que le quedaron Y SUBE DE NIVEL!!!");
+            } else {
+                System.out.println("Estas son las cartas que le quedaron a " + jugador2.getNombre());
+            }
             for (Personaje pj : jugador2.getPersonajes()) {
                 if (pj.isSeleccionable()) {
                     pj.setNivel(pj.getNivel() + 1);
