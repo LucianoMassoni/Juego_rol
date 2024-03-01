@@ -43,7 +43,7 @@ public class MenuManager {
             System.out.println("Menu de creacion de personaje");
             System.out.println("1. Crear tus personajes");
             System.out.println("2. Crear tus personajes aleatoreamente");
-            System.out.println("Elija una opcion: ");
+            System.out.print("Elija una opcion: ");
             opcion = sc.scannerInt(sc.scannerString());
             if (opcion < 1 || opcion > 2) {
                 contador++;

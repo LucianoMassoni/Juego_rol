@@ -169,6 +169,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
@@ -196,6 +198,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
@@ -223,6 +227,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
@@ -250,6 +256,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
@@ -277,6 +285,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
@@ -304,6 +314,8 @@ public class PersonajeBuilder {
                 break;
             }
         } while(contador < 3);
+        if (contador == 3)
+            throw new CantidadMaximaDeIntentosException("Se supero la cantidad maxima de intentos.");
 
         return this;
     }
