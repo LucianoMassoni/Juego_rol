@@ -1,5 +1,5 @@
 # Juego_rol
-Juego de rol por consola en java final de programación.
+Juego de rol por consola en java final de programación III.
 
 ## Diagramas uml
 - [diagrama clases](https://github.com/LucianoMassoni/Juego_rol/assets/112901637/edec9df6-f24d-4acf-a562-297a65db94a1)
